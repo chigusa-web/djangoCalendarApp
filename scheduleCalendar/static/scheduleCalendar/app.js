@@ -1,3 +1,7 @@
+// CSRF対策
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
+axios.defaults.xsrfCookieName = "csrftoken"
+
 document.addEventListener('DOMContentLoaded', function () {
 
     var calendarEl = document.getElementById('calendar');
@@ -14,13 +18,28 @@ document.addEventListener('DOMContentLoaded', function () {
             const eventName = prompt("イベントを入力してください");
 
             if (eventName) {
-                // イベントの追加
-                calendar.addEvent({
-                    title: eventName,
-                    start: info.start,
-                    end: info.end,
-                    allDay: true,
-                });
+
+                // 登録処理の呼び出し
+                axios
+                    .post("/sc/add/", {
+                        start_date: info.start.valueOf(),
+                        end_date: info.end.valueOf(),
+                        event_name: eventName,
+                    })
+                    .then(() => {
+                        // イベントの追加
+                        calendar.addEvent({
+                            title: eventName,
+                            start: info.start,
+                            end: info.end,
+                            allDay: true,
+                        });
+
+                    })
+                    .catch(() => {
+                        // バリデーションエラーなど
+                        alert("登録に失敗しました");
+                    });
             }
         },
     });
