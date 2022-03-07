@@ -7,6 +7,7 @@ from django.http import JsonResponse
 import time
 from django.template import loader
 from django.http import HttpResponse
+from django.middleware.csrf import get_token
 
 # Create your views here.
 
@@ -15,8 +16,12 @@ def index(request):
     """
     カレンダー画面
     """
+    # CSRFのトークンを発行する
+    get_token(request)
+
     template = loader.get_template("scheduleCalendar/index.html")
     return HttpResponse(template.render())
+
 
 def add_event(request):
     """
@@ -57,6 +62,7 @@ def add_event(request):
 
     # 空を返却
     return HttpResponse("")
+
 
 def get_events(request):
     """
