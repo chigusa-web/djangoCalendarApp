@@ -6,3 +6,6 @@ DATABASES = {
     'default': {
     }
 }
+
+DEBUG = True
+
