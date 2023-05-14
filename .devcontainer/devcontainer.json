@@ -1,5 +1,5 @@
 {
-	"name": "Django Calendar",
+	"name": "Django Sample",
 	// Dockerfileでイメージ・コンテナを作成
 	"dockerComposeFile": "docker-compose.yml",
 	// VS Codeのワークスペースフォルダ

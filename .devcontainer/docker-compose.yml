@@ -10,22 +10,26 @@ services:
       - db
 
   db:
-    image: mysql:5.7
+    image: postgres
     volumes:
-      - mysql_data:/var/lib/mysql
+        - postgres_data:/var/lib/postgresql/data
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: django_sample
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: password
+        POSTGRES_DB: django_sample
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+  pgadmin4:
+    image: dpage/pgadmin4
     ports:
-      - 8080:80
+        - 8888:80
+    volumes:
+        - pgadmin4_data:/var/lib/pgadmin
     environment:
-      - PMA_HOST=db
-      - PMA_USER=root
-      - PMA_PASSWORD=password
+        PGADMIN_DEFAULT_EMAIL: gotainu@gmail.com
+        PGADMIN_DEFAULT_PASSWORD: gotainu
+    depends_on:
+      - db
 
 volumes:
-    mysql_data:
+    postgres_data:
+    pgadmin4_data:
